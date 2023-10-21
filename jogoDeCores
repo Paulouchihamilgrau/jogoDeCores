@@ -1,7 +1,25 @@
 import pygame
 import random
+import os
+
 
 pygame.init()
+
+
+tabuleiro = [
+      [" "," "," "],
+      [" "," "," "],
+      [" "," "," "],  
+      [" "," "," "]  
+          
+]
+
+def tela():
+    tabuleiro
+
+
+
+
 
 
 largura = 400
