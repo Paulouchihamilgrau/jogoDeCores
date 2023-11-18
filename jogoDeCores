@@ -1,45 +1,64 @@
+
+
 import pygame
 import random
-import os
+import sys
 
-
+# Initialize Pygame
 pygame.init()
 
+# Constants
+WIDTH, HEIGHT = 500, 700
+GRID_SIZE = (4, 3)
+CELL_SIZE = WIDTH // GRID_SIZE[1], HEIGHT // GRID_SIZE[0]
+BALL_RADIUS = min(CELL_SIZE) // 2 - 5
+COLORS = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]  # Red, Green, Blue
 
-tabuleiro = [
-      [" "," "," "],
-      [" "," "," "],
-      [" "," "," "],  
-      [" "," "," "]  
-          
-]
+# Function to draw the Tic-Tac-Toe board
+def draw_board(screen):
+    for i in range(1, GRID_SIZE[0]):
+        pygame.draw.line(screen, (0, 0, 0), (0, i * CELL_SIZE[0]), (WIDTH, i * CELL_SIZE[0]), 2)
+    for j in range(1, GRID_SIZE[1]):
+        pygame.draw.line(screen, (0, 0, 0), (j * CELL_SIZE[1], 0), (j * CELL_SIZE[1], HEIGHT), 2)
 
-def tela():
-    tabuleiro
+# Function to draw the grid with balls
+def draw_grid(screen, grid):
+    for i in range(GRID_SIZE[0]):
+        for j in range(GRID_SIZE[1]):
+            color, rect = grid[i][j]
+            if color is not None:
+                pygame.draw.circle(screen, color, rect.center, BALL_RADIUS)
+
+# Function to create a random grid
+def create_random_grid():
+    grid = [[(random.choice(COLORS), pygame.Rect(j * CELL_SIZE[1], i * CELL_SIZE[0], CELL_SIZE[1], CELL_SIZE[0]))
+             for j in range(GRID_SIZE[1])] for i in range(GRID_SIZE[0])]
+    return grid
+
+# Main function
+def main():
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Color Matching Game")
+
+    clock = pygame.time.Clock()
+
+    grid = create_random_grid()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+        screen.fill((255, 255, 255))  # White background
+        draw_board(screen)
+        draw_grid(screen, grid)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+if __name__ == "__main__":
+    main()
 
 
 
-
-
-
-largura = 400
-altura = 700
-tela = pygame.display.set_mode((largura, altura))
-pygame.display.set_caption("Meu Jogo")
-
-
-executando = True
-while executando:
-    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            executando = False
-
-  
-    tela.fill((255, 255, 255))
-
-   
-    pygame.display.flip()
-
-
-pygame.quit()
